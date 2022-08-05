@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_network_request/services/person_network_service.dart';
 
-import '../model/person.dar.dart';
+import '../model/person_model.dart';
 
 class HomeScreen extends StatelessWidget {
   final PersonNetworkService personService = PersonNetworkService();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,8 +28,8 @@ class HomeScreen extends StatelessWidget {
         child: SafeArea(
           child: FutureBuilder(
             future: personService.fetchPersons(100),
-            builder:
-                (BuildContext context, AsyncSnapshot<List<Person>> snapshot) {
+            builder: (BuildContext context,
+                AsyncSnapshot<List<PersonModel>> snapshot) {
               if (snapshot.hasData) {
                 return Row(
                   children: <Widget>[
@@ -44,26 +43,27 @@ class HomeScreen extends StatelessWidget {
                               var currentPerson = snapshot.data![index];
 
                               return ListTile(
-                                title: Text(currentPerson.name!),
+                                title: Text(currentPerson.name!.toString()),
                                 leading: CircleAvatar(
-                                  backgroundImage:
-                                      NetworkImage(currentPerson.imageUrl!),
+                                  backgroundImage: NetworkImage(
+                                      currentPerson.picture!.thumbnail),
                                 ),
                                 subtitle: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text("Phone: ${currentPerson.phoneNumber}"),
+                                    Text("Phone: ${currentPerson.phone}"),
                                     Text("Email: ${currentPerson.email}"),
                                   ],
                                 ),
                                 trailing: Column(
                                   children: [
-                                    Icon(
+                                    const Icon(
                                       Icons.account_circle,
                                     ),
                                     Text(
                                       "Gender:${currentPerson.gender}",
-                                      style: TextStyle(color: Colors.grey),
+                                      style:
+                                          const TextStyle(color: Colors.grey),
                                     )
                                   ],
                                 ),
